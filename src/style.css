@@ -1,0 +1,63 @@
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:#0D0B09}
+body{font-family:'Courier Prime',ui-monospace,monospace;color:#EDE6D6;-webkit-tap-highlight-color:transparent;touch-action:none}
+canvas{display:block}
+
+/* ---- HUD ---- */
+#hud{position:fixed;inset:0;pointer-events:none;z-index:3}
+.plate{position:absolute;top:16px;left:16px}
+.plate .nm{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;line-height:.95;letter-spacing:1.6px}
+.plate .rl{font-size:11px;color:#9A8F7C;margin-top:4px}
+#compass{position:absolute;top:18px;right:16px;text-align:right;font-size:11px;color:#9A8F7C;line-height:1.7}
+#compass b{color:#CDBB94;font-weight:400}
+#toast{position:absolute;left:50%;transform:translateX(-50%);bottom:136px;background:rgba(18,14,11,.86);border:1px solid #453B2D;padding:7px 14px;font-size:12px;color:#CDBB94;opacity:0;transition:opacity .45s}
+#toast.on{opacity:1}
+#prompt{position:absolute;left:50%;transform:translateX(-50%) translateY(8px);bottom:196px;opacity:0;transition:opacity .22s,transform .22s;text-align:center}
+#prompt.on{opacity:1;transform:translateX(-50%) translateY(0)}
+#prompt .t{font-family:'Barlow Condensed',sans-serif;font-size:22px;letter-spacing:1.2px}
+#prompt .k{font-size:11px;color:#C4564A;margin-top:2px}
+
+/* ---- controles de toque ---- */
+#stick{position:absolute;left:20px;bottom:24px;width:128px;height:128px;border-radius:50%;border:1px solid #3A3226;background:rgba(30,26,21,.45);pointer-events:auto;touch-action:none}
+#knob{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;border-radius:50%;background:#CDBB94;opacity:.85}
+#act{position:absolute;right:22px;bottom:46px;width:88px;height:88px;border-radius:50%;border:1px solid #A33226;background:rgba(163,50,38,.18);color:#E9BDB6;font-family:'Barlow Condensed',sans-serif;font-size:19px;letter-spacing:1px;pointer-events:auto;display:flex;align-items:center;justify-content:center}
+#act:active{background:rgba(163,50,38,.36)}
+#run{position:absolute;right:124px;bottom:58px;width:62px;height:62px;border-radius:50%;border:1px solid #6E6046;background:rgba(110,96,70,.16);color:#CDBB94;font-family:'Barlow Condensed',sans-serif;font-size:15px;pointer-events:auto;display:flex;align-items:center;justify-content:center}
+#run.on{background:rgba(205,187,148,.3);color:#F2EAD6}
+body.desk #stick,body.desk #act,body.desk #run{display:none}
+
+/* ---- transicao de entrada na estacao ---- */
+#flash{position:fixed;inset:0;background:#F2EAD6;opacity:0;pointer-events:none;z-index:4;transition:opacity .35s}
+
+/* ---- painel do projeto ---- */
+#panel{position:fixed;inset:0;display:flex;align-items:flex-end;justify-content:center;background:rgba(10,8,6,0);pointer-events:none;transition:background .3s;z-index:6}
+#panel.on{background:rgba(10,8,6,.72);pointer-events:auto}
+#card{position:relative;width:min(760px,100%);max-height:84vh;overflow-y:auto;background:#221E18;border-top:2px solid #A33226;padding:22px 20px 26px;transform:translateY(26px);opacity:0;transition:transform .34s cubic-bezier(.2,.8,.3,1),opacity .28s}
+#panel.on #card{transform:translateY(0);opacity:1}
+#card .yr{font-size:11px;color:#8E8472}
+#card h2{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:34px;line-height:1;letter-spacing:1px;margin:6px 0 12px}
+#card p{font-size:13px;line-height:1.75;color:#C0B6A2;max-width:62ch}
+#frame{position:relative;width:100%;aspect-ratio:16/10;background:#171410;border:1px solid #453B2D;margin:14px 0 18px;overflow:hidden}
+#frame.none{display:none}
+#frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;opacity:0;transition:opacity .5s;background:#fff}
+#frame.ready iframe{opacity:1}
+#load{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:#8E8472;text-align:center;padding:0 20px;line-height:1.7}
+#frame.ready #load{display:none}
+#card .stack{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+#card .stack span{font-size:11px;color:#CDBB94;border:1px solid #453B2D;padding:3px 9px}
+#card .go{display:inline-block;margin-top:20px;font-family:'Barlow Condensed',sans-serif;font-size:17px;letter-spacing:1px;color:#E9BDB6;border:1px solid #A33226;padding:9px 20px;text-decoration:none}
+#card .go:hover{background:rgba(163,50,38,.2)}
+#close{position:absolute;top:14px;right:16px;background:none;border:1px solid #453B2D;color:#9A8F7C;width:34px;height:34px;font-size:15px;cursor:pointer}
+
+/* ---- tela de entrada ---- */
+#gate{position:fixed;inset:0;background:#0D0B09;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;z-index:9;transition:opacity .8s}
+#gate.off{opacity:0;pointer-events:none}
+#gate h1{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:clamp(40px,13vw,74px);line-height:.9;letter-spacing:2px;text-align:center}
+#gate .sub{font-size:12px;color:#8E8472;text-align:center;max-width:32ch;line-height:1.8}
+#bar{width:min(260px,60vw);height:2px;background:#2E2820}
+#bar i{display:block;height:100%;width:0;background:#A33226;transition:width .3s}
+#enter{font-family:'Barlow Condensed',sans-serif;font-size:20px;letter-spacing:2px;color:#EDE6D6;background:none;border:1px solid #A33226;padding:13px 34px;cursor:pointer;opacity:.25;pointer-events:none}
+#enter.ready{opacity:1;pointer-events:auto}
+#enter.ready:hover{background:rgba(163,50,38,.2)}
+
+:focus-visible{outline:2px solid #CDBB94;outline-offset:2px}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Estúdio Sanabre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+<div id="hud">
+  <div class="plate"><div class="nm">DOUGLAS<br>SANABRE</div><div class="rl">full stack · javascript / typescript</div></div>
+  <div id="compass">sala <b id="room">estúdio</b><br>visitados <b id="seen">0</b>/<b id="total">0</b></div>
+  <div id="prompt"><div class="t" id="ptitle"></div><div class="k" id="pkey"></div></div>
+  <div id="toast"></div>
+  <div id="stick"><div id="knob"></div></div>
+  <button id="run" aria-label="Correr">CORRER</button>
+  <button id="act" aria-label="Interagir">VER</button>
+</div>
+<div id="flash"></div>
+<div id="panel" role="dialog" aria-modal="true">
+  <div id="card">
+    <button id="close" aria-label="Fechar">×</button>
+    <div class="yr" id="cyr"></div><h2 id="cti"></h2>
+    <div id="frame"><div id="load">carregando o site…</div><iframe id="site" title="Site do projeto" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe></div>
+    <p id="cds"></p>
+    <div class="stack" id="cst"></div>
+    <a class="go" id="cgo" href="#" target="_blank" rel="noopener">Abrir em nova aba</a>
+  </div>
+</div>
+<div id="gate">
+  <h1>ESTÚDIO<br>SANABRE</h1>
+  <div class="sub">Dez estações. Caminhe até uma delas para conhecer o trabalho.</div>
+  <div id="bar"><i id="barfill"></i></div>
+  <button id="enter">ENTRAR</button>
+</div>
+
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+</script>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
