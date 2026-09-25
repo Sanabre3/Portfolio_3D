@@ -104,7 +104,12 @@ export function buildDust(scene, count = 260) {
       let y = a.getY(i) + vel[i] * dt;
       if (y > 3.6) y = 0.15;
       a.setY(i, y);
-      a.setX(i, a.getX(i) + Math.sin(t * 0.4 + i) * 0.0012);
+      // deriva lateral com limite, senao acumula e a particula sai da sala
+      let x = a.getX(i) + Math.sin(t * 0.4 + i) * 0.0012;
+      const lim = ROOM.W / 2;
+      if (x > lim) x -= ROOM.W;
+      if (x < -lim) x += ROOM.W;
+      a.setX(i, x);
     }
     a.needsUpdate = true;
   };

@@ -23,7 +23,9 @@ export class CameraRig {
   }
 
   // Aproxima a camera de uma estacao ao interagir.
+  // Guarda o enquadramento anterior para restore() poder desfazer.
   focus(fromPos, stationPos, duration = 0.8) {
+    this.saved = { pitch: this.tPitch, dist: this.tDist };
     this.zoomTween = {
       t: 0, duration,
       from: { yaw: this.tYaw, pitch: this.tPitch, dist: this.tDist },
@@ -32,6 +34,18 @@ export class CameraRig {
         pitch: 0.16, dist: 2.5
       }
     };
+  }
+
+  // Volta ao enquadramento de antes da interacao, sem girar o yaw
+  // (o jogador pode ter arrastado a camera enquanto o painel estava aberto).
+  restore(duration = 0.6) {
+    if (!this.saved) return;
+    this.zoomTween = {
+      t: 0, duration,
+      from: { yaw: this.tYaw, pitch: this.tPitch, dist: this.tDist },
+      to:   { yaw: this.tYaw, pitch: this.saved.pitch, dist: this.saved.dist }
+    };
+    this.saved = null;
   }
 
   update(dt, focusPoint, solids) {

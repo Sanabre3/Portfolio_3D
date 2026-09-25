@@ -28,8 +28,9 @@ const contactShadow = makeContactShadow(scene);
 
 // Geometria que a camera nao pode atravessar. O proprio personagem fica de fora.
 const solids = [];
+const BLOCKING = ['BoxGeometry', 'CylinderGeometry'];
 scene.traverse(o => {
-  if (!o.isMesh || !o.geometry || o.geometry.type !== 'BoxGeometry') return;
+  if (!o.isMesh || !o.geometry || !BLOCKING.includes(o.geometry.type)) return;
   let p = o, inChar = false;
   while (p) { if (p === CH.root) { inChar = true; break; } p = p.parent; }
   if (!inChar) solids.push(o);
@@ -61,7 +62,7 @@ attachControls({
   dom: renderer.domElement,
   rig,
   onInteract: interact,
-  onClose: () => panel.close(),
+  onClose: () => { panel.close(); rig.restore(); },
   isPanelOpen: () => panel.isOpen()
 });
 
