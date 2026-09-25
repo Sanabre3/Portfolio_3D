@@ -137,7 +137,7 @@ function tick(dt, t) {
   });
   if (best !== active) { active = best; hud.setActive(best); }
 
-  focusPoint.set(CH.root.position.x, 1.42, CH.root.position.z);
+  focusPoint.set(CH.root.position.x, 1.52, CH.root.position.z);
   rig.update(dt, focusPoint, solids);
 
   updateDust(dt, t);

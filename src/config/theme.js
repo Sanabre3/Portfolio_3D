@@ -12,7 +12,7 @@ export const TUNE = {
   camMin: 2.2,
   camMax: 9,
   camDamp: 9,
-  playerRadius: 0.34, // raio de colisao
+  playerRadius: 0.42, // raio de colisao (armadura ocupa mais espaco)
   interact: 2.3,      // distancia para poder interagir
   labelFade: 4.2      // distancia em que o rotulo comeca a aparecer
 };
