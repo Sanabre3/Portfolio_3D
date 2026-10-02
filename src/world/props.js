@@ -197,6 +197,7 @@ export const BUILD = {
           transparent: true, opacity: 0.92, side: THREE.DoubleSide, roughness: 0.3
         }));
       p.position.set(-0.68 + i * 0.68, 1.6, 0.02);
+      p.userData.blocksCamera = true; // vitral: a camera para antes dele
       g.add(p);
       box(0.03, 2.4, 0.06, M.darkw, -0.34 + i * 0.68, 1.6, 0, g);
     }

@@ -31,8 +31,9 @@ E abra `http://localhost:3000` (ou a porta que aparecer).
 | Cores dos materiais | `src/world/props.js` (objeto `M`) |
 | Piso, parede, tapete, luminárias, poeira | `src/world/room.js` |
 | Formato de cada móvel | `src/world/props.js` (objeto `BUILD`) |
-| Corpo, roupa, cabelo, óculos do personagem | `src/player/character.js` |
-| Ciclo de caminhada e corrida | `src/player/animation.js` |
+| Personagem 3D (samurai .glb): carregamento, mistura dos clipes, molas da saia e da borla | `src/player/model.js` |
+| Modelo, roupa, armadura, cabelo, lança e animações do .glb | `tools/samurai/` (gera `assets/samurai.glb`) |
+| Personagem procedural de reserva (aparece enquanto o .glb carrega) | `src/player/character.js`, `src/player/animation.js` |
 | Teclado, joystick, botões | `src/player/controls.js` |
 | Comportamento da câmera | `src/camera/follow.js` |
 | Painel do projeto e iframe | `src/ui/panel.js` |
@@ -47,6 +48,16 @@ E abra `http://localhost:3000` (ou a porta que aparecer).
    ou escreva um novo — a função recebe o grupo e devolve `[largura, profundidade]`
    para o cálculo de colisão.
 3. `url: ''` esconde o iframe e mostra só o texto.
+
+## Personagem
+
+`assets/samurai.glb` (1,2 MB, Draco + WebP): corpo com esqueleto de 69 ossos, roupa e
+armadura com materiais PBR, clipes Idle, Walk e Run. A velocidade dos clipes acompanha a
+velocidade real do personagem (o pé não escorrega) e Walk e Run trocam sem perder o passo.
+As placas da saia (kusazuri) e a borla da lança têm física de mola: a coxa empurra a placa
+e a inércia do corpo balança as duas.
+
+Se o .glb não carregar, o personagem procedural entra no lugar sem quebrar a página.
 
 ## Limitação conhecida
 

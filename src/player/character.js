@@ -103,11 +103,11 @@ export function makeCharacter(look = LOOK) {
   for (let i = 0; i < 5; i++) {
     const t = i / 4;
     const w = 0.5 - t * 0.05;
-    const l = lame(cuirass, w, 0.085, 0.33 - t * 0.02, 0, 0.06 + i * 0.095, 0.01, i === 0 ? MAT.lacqLo : MAT.lacq, 3);
+    const l = lame(cuirass, w, 0.085, 0.33 - t * 0.02, 0, -0.02 + i * 0.085, 0.01, i === 0 ? MAT.lacqLo : MAT.lacq, 3);
     l.scale.z = 1;
   }
   // placa do peito e alcas sobre os ombros (watagami)
-  lame(cuirass, 0.42, 0.14, 0.3, 0, 0.55, 0.015, MAT.lacq, 2);
+  lame(cuirass, 0.42, 0.12, 0.3, 0, 0.42, 0.015, MAT.lacq, 2);
   [-1, 1].forEach(s => {
     const strap = plate(torso, 0.12, 0.05, 0.3, s * 0.155, 0.52, 0.0);
     strap.rotation.z = s * 0.12;
@@ -180,7 +180,7 @@ export function makeCharacter(look = LOOK) {
   // ---- bracos, sode e kote ----
   const limbs = {};
   [-1, 1].forEach(side => {
-    const k = side < 0 ? 'L' : 'R';
+    const k = side < 0 ? 'R' : 'L'; // de frente para +z, a direita do personagem fica em -x
 
     const shoulder = new THREE.Group();
     shoulder.position.set(side * 0.235, 0.47, 0);
@@ -234,8 +234,8 @@ export function makeCharacter(look = LOOK) {
 
   // ---- lanca (yari) ----
   const weapon = new THREE.Group();
-  weapon.position.set(0.3, 0.1, 0.13);
-  weapon.rotation.z = -0.1;
+  weapon.position.set(-0.3, 0.1, 0.13);
+  weapon.rotation.z = 0.1;
   weapon.rotation.x = -0.05;
   torso.add(weapon);
 

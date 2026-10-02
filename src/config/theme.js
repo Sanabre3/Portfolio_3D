@@ -3,8 +3,8 @@ export const ROOM = { W: 20, D: 14, H: 4.2 };
 
 // Ajuste fino de movimento e camera.
 export const TUNE = {
-  walk: 2.2,          // m/s caminhando
-  run: 4.6,           // m/s correndo
+  walk: 1.5,          // m/s caminhando (ritmo do clipe Walk do Mixamo)
+  run: 5.0,           // m/s correndo
   accel: 9,           // suavizacao ao acelerar (maior = mais responsivo)
   brake: 12,          // suavizacao ao frear
   turn: 11,           // velocidade de giro do corpo

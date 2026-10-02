@@ -28,12 +28,11 @@ export function poseCharacter(CH, state) {
     L['elb' + key].rotation.x = -(0.25 + Math.max(0, s) * 0.5) * amp - run01 * 0.5;
   };
   const holdArm = key => {
-    const side = key === 'L' ? -1 : 1;
-    // ombro levemente aberto, cotovelo fechado: mao na altura do cabo
+    const sx = key === 'L' ? 1 : -1; // lado do braco em x
     L['arm' + key].rotation.x = -0.06 + Math.sin(phase) * 0.04 * amp;
-    L['arm' + key].rotation.z = -side * 0.24;
+    L['arm' + key].rotation.z = sx * 0.16;
     L['elb' + key].rotation.x = -0.62 - run01 * 0.12;
-    L['elb' + key].rotation.z = side * 0.1;
+    L['elb' + key].rotation.z = -sx * 0.1;
   };
 
   if (carry === 'R') { holdArm('R'); swingArm('L', sw2, 1.35); }
@@ -41,7 +40,7 @@ export function poseCharacter(CH, state) {
   else { swingArm('L', sw2, 1); swingArm('R', sw, 1); }
 
   // Parado: respiracao e olhar lento em volta
-  CH.hips.position.y = 0.95 + Math.abs(Math.sin(phase)) * 0.055 * amp + Math.sin(t * 1.6) * 0.006 * (1 - amp);
+  CH.hips.position.y = 0.95 - 0.5 * (1 - Math.cos(0.72 * amp * Math.sin(phase))) + Math.abs(Math.cos(phase)) * 0.02 * amp + Math.sin(t * 1.6) * 0.006 * (1 - amp);
   CH.hips.rotation.z = Math.sin(phase) * 0.05 * amp;
   CH.torso.rotation.y = -Math.sin(phase) * 0.09 * amp;
   CH.torso.rotation.x = run01 * 0.2 + Math.sin(t * 1.4) * 0.008 * (1 - amp);

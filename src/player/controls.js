@@ -13,7 +13,7 @@ export function attachControls({ dom, rig, onInteract, onClose, isPanelOpen }) {
   addEventListener('keydown', e => {
     keys[e.key.toLowerCase()] = true;
     if (e.key === 'Shift') input.running = true;
-    if (e.key.toLowerCase() === 'e') isPanelOpen() ? onClose() : onInteract();
+    if (e.key.toLowerCase() === 'e') { if (isPanelOpen()) onClose(); else { release(); onInteract(); } }
     if (e.key === 'Escape') onClose();
     if ([' ', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) e.preventDefault();
   });
@@ -22,14 +22,36 @@ export function attachControls({ dom, rig, onInteract, onClose, isPanelOpen }) {
     if (e.key === 'Shift') input.running = false;
   });
 
-  // Arraste gira a camera. Pinca faz zoom.
+  // Mouse integrado a camera (desktop): um clique na tela prende o cursor (pointer lock)
+  // e o movimento do mouse gira a camera, como em jogo de terceira pessoa. Esc solta.
+  // Sem o cursor preso, arrastar continua girando. No celular, arrastar com o dedo.
+  const canLock = !isTouch && !!dom.requestPointerLock;
+  let locked = false, moved = 0;
+  document.addEventListener('pointerlockchange', () => {
+    locked = document.pointerLockElement === dom;
+    document.body.classList.toggle('locked', locked);
+  });
+  const release = () => { if (locked && document.exitPointerLock) document.exitPointerLock(); };
+  addEventListener('mousemove', e => {
+    if (!locked) return;
+    rig.orbit(-e.movementX * 0.0026, e.movementY * 0.0019);
+  });
+  dom.addEventListener('click', () => {
+    if (canLock && !locked && moved < 6 && !isPanelOpen()) {
+      const r = dom.requestPointerLock(); if (r && r.catch) r.catch(() => {});
+    }
+  });
+
   let drag = null, pinch = 0;
   dom.addEventListener('pointerdown', e => {
+    moved = 0;
+    if (locked) return;
     drag = { x: e.clientX, y: e.clientY, id: e.pointerId };
     dom.setPointerCapture(e.pointerId);
   });
   dom.addEventListener('pointermove', e => {
     if (!drag || drag.id !== e.pointerId) return;
+    moved += Math.abs(e.clientX - drag.x) + Math.abs(e.clientY - drag.y);
     rig.orbit(-(e.clientX - drag.x) * 0.006, (e.clientY - drag.y) * 0.004);
     drag.x = e.clientX; drag.y = e.clientY;
   });
@@ -69,6 +91,7 @@ export function attachControls({ dom, rig, onInteract, onClose, isPanelOpen }) {
   const runBtn = document.getElementById('run');
   runBtn.onclick = () => { input.running = !input.running; runBtn.classList.toggle('on', input.running); };
   document.getElementById('act').onclick = () => isPanelOpen() ? onClose() : onInteract();
+  return { release, isLocked: () => locked };
 }
 
 export function readInput() {

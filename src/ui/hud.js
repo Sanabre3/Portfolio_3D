@@ -37,16 +37,20 @@ export class HUD {
   flashOut() { this.flash.style.opacity = '0'; }
 }
 
-// Tela de entrada. Chama onStart depois que o usuario clica.
-export function gate(renderer, scene, camera, onStart) {
+// Tela de entrada. Espera o personagem carregar (loading: Promise), mostra o
+// progresso na barra e chama onStart depois que o usuario clica.
+export function gate(renderer, scene, camera, onStart, loading = Promise.resolve()) {
   const fill = document.getElementById('barfill');
   const enter = document.getElementById('enter');
-  fill.style.width = '40%';
-  renderer.compile(scene, camera);   // pre-compila shaders para nao travar no primeiro frame
-  fill.style.width = '80%';
-  requestAnimationFrame(() => {
-    fill.style.width = '100%';
-    enter.classList.add('ready');
+  fill.style.width = '10%';
+  gate.progress = f => { fill.style.width = (10 + f * 70).toFixed(0) + '%'; };
+  loading.finally(() => {
+    fill.style.width = '85%';
+    renderer.compile(scene, camera);   // pre-compila shaders para nao travar no primeiro frame
+    requestAnimationFrame(() => {
+      fill.style.width = '100%';
+      enter.classList.add('ready');
+    });
   });
   enter.onclick = () => {
     document.getElementById('gate').classList.add('off');
